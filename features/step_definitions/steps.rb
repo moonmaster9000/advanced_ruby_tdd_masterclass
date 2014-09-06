@@ -37,7 +37,7 @@ module TodoDsl
     end
 
     def todos
-      Todo::UseCases::PresentTodos.new.present_all.collect(:description)
+      Todo::UseCases::PresentTodos.new(todo_repo: todo_repo).present_all.collect(&:description)
     end
 
     def todo_item
