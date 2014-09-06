@@ -1,12 +1,37 @@
-Given(/^an empty todo list$/) do
-  `./todo destroy`
+module TodoDsl
+  def destroy
+    todo_command "destroy"
+  end
+
+  def add(item)
+    todo_command "add #{item}"
+  end
+
+  def todos
+    todo_command "list"
+  end
+
+  def todo_item
+    "new item"
+  end
+
+  private
+  def todo_command(command)
+    `./todo #{command}`
+  end
 end
 
+World TodoDsl
+
+Given(/^an empty todo list$/) do
+  destroy
+end
+
+
 When(/^I add an item to the list$/) do
-  `./todo add new item`
+  add(todo_item)
 end
 
 Then(/^I should see it in the list$/) do
-  items = `./todo list`
-  expect(items).to include "new item"
+  expect(todos).to include(todo_item)
 end
