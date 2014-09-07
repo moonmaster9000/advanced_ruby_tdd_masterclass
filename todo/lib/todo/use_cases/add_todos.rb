@@ -1,13 +1,9 @@
 require "todo/entities/todo"
+require "todo/use_cases/null_observer"
 
 module Todo
   module UseCases
     class AddTodos
-      class NullObserver
-        def use_case_succeeded(*); end
-        def validation_failed(*); end
-      end
-
       def initialize(todo_repo:, observer: NullObserver.new)
         @todo_repo = todo_repo
         @observer = observer

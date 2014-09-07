@@ -9,6 +9,10 @@ module Todo
         todo_repo.all
       end
 
+      def present_todos
+        todo_repo.todos
+      end
+
       private
       attr_reader :todo_repo
     end

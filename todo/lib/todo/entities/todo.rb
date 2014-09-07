@@ -19,6 +19,14 @@ module Todo
         end
       end
 
+      def do!
+        @state = "done"
+      end
+
+      def done?
+        @state == "done"
+      end
+
       private
       def description_is_just_whitespace?
         description.to_s.strip.empty?

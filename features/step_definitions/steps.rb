@@ -37,7 +37,11 @@ module TodoDsl
     end
 
     def todos
-      Todo::UseCases::PresentTodos.new(todo_repo: todo_repo).present_all.collect(&:description)
+      Todo::UseCases::PresentTodos.new(todo_repo: todo_repo).present_todos.collect(&:description)
+    end
+
+    def do_todo(description)
+      Todo::UseCases::Do.new(todo_repo: todo_repo).do_todo(description: description)
     end
 
     def todo_item
@@ -68,4 +72,17 @@ end
 
 Then(/^I should see it in the list$/) do
   expect(todos).to include(todo_item)
+end
+
+
+Given(/^there is a todo$/) do
+  add(todo_item)
+end
+
+When(/^I do it$/) do
+  do_todo(todo_item)
+end
+
+Then(/^it should no longer show up in the list of todos$/) do
+  expect(todos).not_to include(todo_item)
 end
