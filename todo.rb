@@ -9,8 +9,8 @@ class TodoRepo
     File.delete(repo_file)
   end
 
-  def create(todo_text)
-    File.write(repo_file, todo_text + "\n")
+  def create(todo)
+    File.write(repo_file, todo.description + "\n")
   end
 
   def all
@@ -22,12 +22,58 @@ class TodoRepo
 end
 
 todo_repo = TodoRepo.new
+$LOAD_PATH.unshift "todo/lib"
+require "todo"
+
+class CliCommand
+  def initialize
+    @todo_repo = TodoRepo.new
+  end
+
+  private
+  attr_reader(
+    :todo_repo,
+  )
+end
+
+class DestroyCommand < CliCommand
+  def execute
+    Todo::UseCases::DestroyTodos.new(todo_repo: todo_repo).destroy_all
+  end
+end
+
+class AddCommand < CliCommand
+  def execute
+    Todo::UseCases::AddTodos.new(
+      todo_repo: todo_repo,
+      observer: self,
+    ).add(description: todo_description)
+  end
+
+  def use_case_succeeded(*)
+  end
+
+  def validation_failed(todo)
+    puts todo.failed_validations.join("\n")
+  end
+
+  private
+  def todo_description
+    ARGV[1..-1].join(" ")
+  end
+end
+
+class ListCommand < CliCommand
+  def execute
+    puts Todo::UseCases::PresentTodos.new(todo_repo: todo_repo).present_all
+  end
+end
 
 case ARGV.first
   when "destroy"
-    todo_repo.destroy_all
+    DestroyCommand.new.execute
   when "add"
-    todo_repo.create(ARGV[1..-1].join(" "))
+    AddCommand.new.execute
   when "list"
-    puts todo_repo.all
+    ListCommand.new.execute
 end
