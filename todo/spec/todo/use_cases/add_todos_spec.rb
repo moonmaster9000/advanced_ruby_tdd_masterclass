@@ -1,6 +1,7 @@
 require "todo/use_cases/add_todos"
 require "doubles/in_memory_todo_repo"
 require "doubles/spy_use_case_observer"
+require "doubles/valid_todo_stub"
 
 module Todo::UseCases
   describe AddTodos do
@@ -48,11 +49,12 @@ module Todo::UseCases
         todo_repo: todo_repo,
         observer: observer,
       ).add(
-        description: description
+        valid_todo_attributes.merge(description: description)
       )
     end
 
     let(:todo_repo) { InMemoryTodoRepo.new }
     let(:observer) { SpyUseCaseObserver.new }
+    let(:valid_todo_attributes) { ValidTodoStub.attributes }
   end
 end
