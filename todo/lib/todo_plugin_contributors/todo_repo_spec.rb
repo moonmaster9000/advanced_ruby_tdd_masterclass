@@ -1,5 +1,5 @@
 require "todo/entities/todo"
-require "doubles/valid_todo_stub"
+require "todo_plugin_contributors/valid_todo_stub"
 
 def build_repo_spec(todo_repo_class)
   describe "#{todo_repo_class}" do

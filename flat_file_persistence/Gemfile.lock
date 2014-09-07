@@ -1,0 +1,35 @@
+PATH
+  remote: .
+  specs:
+    flat_file_persistence (0.0.0)
+      todo
+
+PATH
+  remote: ../todo
+  specs:
+    todo (0.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    diff-lcs (1.2.5)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
+    rspec-core (3.0.2)
+      rspec-support (~> 3.0.0)
+    rspec-expectations (3.0.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.0.0)
+    rspec-mocks (3.0.2)
+      rspec-support (~> 3.0.0)
+    rspec-support (3.0.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  flat_file_persistence!
+  rspec
+  todo!

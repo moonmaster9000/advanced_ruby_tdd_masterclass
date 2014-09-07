@@ -2,7 +2,7 @@ require "todo/use_cases/present_todos"
 require "todo/use_cases/add_todos"
 require "todo/entities/todo"
 require "doubles/in_memory_todo_repo"
-require "doubles/valid_todo_stub"
+require "todo_plugin_contributors/valid_todo_stub"
 
 module Todo::UseCases
   describe PresentTodos do

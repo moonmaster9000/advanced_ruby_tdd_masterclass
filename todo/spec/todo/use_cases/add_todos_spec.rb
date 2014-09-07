@@ -1,7 +1,7 @@
 require "todo/use_cases/add_todos"
 require "doubles/in_memory_todo_repo"
 require "doubles/spy_use_case_observer"
-require "doubles/valid_todo_stub"
+require "todo_plugin_contributors/valid_todo_stub"
 
 module Todo::UseCases
   describe AddTodos do
