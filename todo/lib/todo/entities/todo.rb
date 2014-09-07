@@ -11,6 +11,16 @@ module Todo
         failed_validations.empty?
       end
 
+      def ==(another_todo)
+        return true if object_id == another_todo.object_id
+
+        if description.nil?
+          false
+        else
+          description == another_todo.description
+        end
+      end
+
       def failed_validations
         if description_is_just_whitespace?
           ["description must be present"]

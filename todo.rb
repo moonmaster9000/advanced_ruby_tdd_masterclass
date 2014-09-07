@@ -45,7 +45,7 @@ end
 
 class ListCommand < CliCommand
   def execute
-    puts Todo::UseCases::PresentTodos.new(todo_repo: todo_repo).present_all
+    puts Todo::UseCases::PresentTodos.new(todo_repo: todo_repo).present_all.collect(&:description).join("\n")
   end
 end
 

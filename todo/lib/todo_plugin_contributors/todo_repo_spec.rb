@@ -48,6 +48,6 @@ def build_repo_spec(todo_repo_class)
     let(:valid_todo_attributes) { ValidTodoStub.attributes }
     let(:todo_repo)             { todo_repo_class.new }
     let(:todo)                  { Todo::Entities::Todo.new(valid_todo_attributes) }
-    let(:done_todo)             { Todo::Entities::Todo.new(valid_todo_attributes).tap &:do! }
+    let(:done_todo)             { Todo::Entities::Todo.new(valid_todo_attributes.merge(description: "done #{valid_todo_attributes[:description]}")).tap &:do! }
   end
 end
