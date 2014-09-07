@@ -54,12 +54,13 @@ module TodoDsl
   end
 end
 
-World TodoDsl::Domain
+dsl = ENV["LEVEL"] || "Domain"
+
+World TodoDsl.const_get(dsl)
 
 Given(/^an empty todo list$/) do
   destroy
 end
-
 
 When(/^I add an item to the list$/) do
   add(todo_item)

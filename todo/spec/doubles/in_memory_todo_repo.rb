@@ -11,6 +11,10 @@ class InMemoryTodoRepo
     @todos = nil
   end
 
+  def empty?
+    all.empty?
+  end
+
   private
   def todos
     @todos ||= []
