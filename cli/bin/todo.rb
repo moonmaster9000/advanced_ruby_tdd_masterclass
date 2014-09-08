@@ -1,7 +1,12 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift "flat_file_persistence/lib"
-$LOAD_PATH.unshift "todo/lib"
+def path_to_todo_app_lib(component)
+  File.expand_path(File.join(__dir__, "..", "..", "#{component}", "lib"))
+end
+
+$LOAD_PATH.unshift path_to_todo_app_lib("flat_file_persistence")
+$LOAD_PATH.unshift path_to_todo_app_lib("todo")
+
 require "todo"
 require "flat_file_persistence"
 

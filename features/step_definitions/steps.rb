@@ -18,7 +18,7 @@ module TodoDsl
 
     private
     def todo_command(command)
-      `./td #{command}`
+      `cli/bin/todo #{command}`
     end
   end
 
