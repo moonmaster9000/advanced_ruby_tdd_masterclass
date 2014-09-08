@@ -16,6 +16,10 @@ module TodoDsl
       "new item"
     end
 
+    def do_todo(todo_name)
+      todo_command "do #{todo_name}"
+    end
+
     private
     def todo_command(command)
       `cli/bin/todo #{command}`
@@ -61,6 +65,10 @@ end
 dsl = ENV["LEVEL"] || "Domain"
 
 World TodoDsl.const_get(dsl)
+
+Before do
+  destroy
+end
 
 Given(/^an empty todo list$/) do
   destroy
