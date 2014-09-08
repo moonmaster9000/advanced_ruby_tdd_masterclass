@@ -9,19 +9,16 @@ module Cli
     end
 
     def route
-      case command
-        when "destroy"
-          DestroyCommand.new.execute
-        when "add"
-          AddCommand.new.execute
-        when "list"
-          ListCommand.new.execute
-      end
+      command_class.new.execute
     end
 
     private
     attr_reader(
       :command,
     )
+
+    def command_class
+      Module.const_get("Cli::Commands::#{command.capitalize}Command")
+    end
   end
 end
