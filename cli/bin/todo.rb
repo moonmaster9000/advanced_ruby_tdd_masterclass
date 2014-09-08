@@ -1,58 +1,22 @@
 #!/usr/bin/env ruby
 
-def path_to_todo_app_lib(component)
+def path_to_todo_app_component(component)
   File.expand_path(File.join(__dir__, "..", "..", "#{component}", "lib"))
 end
 
-$LOAD_PATH.unshift path_to_todo_app_lib("flat_file_persistence")
-$LOAD_PATH.unshift path_to_todo_app_lib("todo")
-
-require "todo"
-require "flat_file_persistence"
-
-class CliCommand
-  def initialize
-      @todo_repo = FlatFilePersistence::TodoRepo.new
-  end
-
-  private
-  attr_reader(
-    :todo_repo,
-  )
-end
-
-class DestroyCommand < CliCommand
-  def execute
-    Todo::UseCases::DestroyTodos.new(todo_repo: todo_repo).destroy_all
+def add_to_load_path(components)
+  components.each do |component|
+    $LOAD_PATH.unshift path_to_todo_app_component(component)
   end
 end
 
-class AddCommand < CliCommand
-  def execute
-    Todo::UseCases::AddTodos.new(
-      todo_repo: todo_repo,
-      observer: self,
-    ).add(description: todo_description)
-  end
+add_to_load_path(
+  %w(flat_file_persistence todo cli)
+)
 
-  def use_case_succeeded(*)
-  end
+require "cli"
 
-  def validation_failed(todo)
-    puts todo.failed_validations.join("\n")
-  end
-
-  private
-  def todo_description
-    ARGV[1..-1].join(" ")
-  end
-end
-
-class ListCommand < CliCommand
-  def execute
-    puts Todo::UseCases::PresentTodos.new(todo_repo: todo_repo).present_all.collect(&:description).join("\n")
-  end
-end
+include Cli::Commands
 
 case ARGV.first
   when "destroy"
