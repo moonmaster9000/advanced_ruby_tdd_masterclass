@@ -1,8 +1,9 @@
-require "cli/commands/cli_command"
+require "cli/commands/requires_todo_description_command"
+
 
 module Cli
   module Commands
-    class AddCommand < CliCommand
+    class AddCommand < RequiresTodoDescriptionCommand
       def execute
         Todo::UseCases::AddTodos.new(
           todo_repo: todo_repo,
@@ -19,7 +20,7 @@ module Cli
 
       private
       def todo_description
-        ARGV[1..-1].join(" ")
+        input_data.join(" ")
       end
     end
   end

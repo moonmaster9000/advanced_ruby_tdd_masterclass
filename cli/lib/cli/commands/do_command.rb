@@ -1,8 +1,8 @@
-require "cli/commands/cli_command"
+require "cli/commands/requires_todo_description_command"
 
 module Cli
   module Commands
-    class DoCommand < CliCommand
+    class DoCommand < RequiresTodoDescriptionCommand
       def execute
         Todo::UseCases::Do.new(
           todo_repo: todo_repo,
@@ -15,11 +15,6 @@ module Cli
 
       def validation_failed(todo)
         puts todo.failed_validations.join("\n")
-      end
-
-      private
-      def todo_description
-        ARGV[1..-1].join(" ")
       end
     end
   end
