@@ -16,13 +16,4 @@ add_to_load_path(
 
 require "cli"
 
-include Cli::Commands
-
-case ARGV.first
-  when "destroy"
-    DestroyCommand.new.execute
-  when "add"
-    AddCommand.new.execute
-  when "list"
-    ListCommand.new.execute
-end
+Cli::Router.new.route
