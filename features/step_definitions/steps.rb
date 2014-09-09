@@ -1,27 +1,60 @@
 module TodoDsl
-  def destroy
-    todo_command "destroy"
+  module Cli
+    def destroy
+      todo_command "destroy"
+    end
+
+    def add(item)
+      todo_command "add #{item}"
+    end
+
+    def todos
+      todo_command "list"
+    end
+
+    def todo_item
+      "new item"
+    end
+
+    private
+    def todo_command(command)
+      `./td #{command}`
+    end
   end
 
-  def add(item)
-    todo_command "add #{item}"
-  end
+  module Domain
+    def self.extended(*)
+      $LOAD_PATH.unshift "todo/lib"
+      require "todo"
+    end
 
-  def todos
-    todo_command "list"
-  end
+    def destroy
+      Todo::UseCases::DestroyTodos.new(todo_repo: todo_repo).destroy_all
+    end
 
-  def todo_item
-    "new item"
-  end
+    def add(description)
+      Todo::UseCases::AddTodos.new(todo_repo: todo_repo).add(description: description)
+    end
 
-  private
-  def todo_command(command)
-    `./todo #{command}`
+    def todos
+      Todo::UseCases::PresentTodos.new.present_all.collect(:description)
+    end
+
+    def todo_item
+      "new item"
+    end
+
+    private
+    def todo_repo
+      @todo_repo ||= begin
+        require_relative "../../todo/spec/doubles/in_memory_todo_repo"
+        InMemoryTodoRepo.new
+      end
+    end
   end
 end
 
-World TodoDsl
+World TodoDsl::Domain
 
 Given(/^an empty todo list$/) do
   destroy
